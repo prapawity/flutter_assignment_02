@@ -80,7 +80,7 @@ class main_screen_state extends State<main_screen> {
                       len1 = 0;
                       if (snapshot.hasData) {
                         for (var items in snapshot.data) {
-                          if (items.show == false) {
+                          if (items.done == false) {
                             show1.add(items);
                             len1++;
                           }
@@ -91,21 +91,21 @@ class main_screen_state extends State<main_screen> {
                                 itemBuilder: (BuildContext context, int index) {
                                   Todo item = show1[index];
                                   return ListTile(
-                                    title: Text(item.body),
+                                    title: Text(item.title),
                                     trailing: Checkbox(
                                       onChanged: (bool value) async {
                                         setState(() {
-                                          item.show = value;
+                                          item.done = value;
                                         });
                                         todo.update(item);
                                       },
-                                      value: item.show,
+                                      value: item.done,
                                     ),
                                   );
                                 },
                               )
                             : Center(
-                                child: Text("No Task"),
+                                child: Text("No Data Found... "),
                               );
                       } else {
                         return Center(
@@ -116,7 +116,7 @@ class main_screen_state extends State<main_screen> {
                   ),
                 )
               : Container(
-                  color: Colors.red,
+                  color: Colors.pink,
                   child: FutureBuilder<List<Todo>>(
                     future: todo.getAll(),
                     builder: (BuildContext context,
@@ -125,7 +125,7 @@ class main_screen_state extends State<main_screen> {
                       len2 = 0;
                       if (snapshot.hasData) {
                         for (var items in snapshot.data) {
-                          if (items.show == true) {
+                          if (items.done == true) {
                             show2.add(items);
                             len2++;
                           }
@@ -136,21 +136,21 @@ class main_screen_state extends State<main_screen> {
                                 itemBuilder: (BuildContext context, int index) {
                                   Todo item = show2[index];
                                   return ListTile(
-                                    title: Text(item.body),
+                                    title: Text(item.title),
                                     trailing: Checkbox(
                                       onChanged: (bool value) async {
                                         setState(() {
-                                          item.show = value;
+                                          item.done = value;
                                         });
                                         todo.update(item);
                                       },
-                                      value: item.show,
+                                      value: item.done,
                                     ),
                                   );
                                 },
                               )
                             : Center(
-                                child: Text("No Completed"),
+                                child: Text("No Data Found..."),
                               );
                       } else {
                         return Center(
@@ -189,7 +189,7 @@ class main_screen_state extends State<main_screen> {
 
   void onTabTapped(int index) {
     setState(() {
-      todo.open("todo.db");
+      todo.open("first_table.db");
       _state = index;
     });
   }

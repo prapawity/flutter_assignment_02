@@ -1,26 +1,25 @@
 import 'package:sqflite/sqflite.dart';
 
-final String tableTodo = "todo";
+final String tableTodo = "first_table";
 final String columnId = "_id";
-final String columnBody = "body";
-final String columnShow = "Show";
+final String columnTitle = "title";
+final String columnDone = "done";
 
 class Todo {
   int id;
-  String body;
-  bool show;
-
+  String title;
+  bool done;
   Todo();
   Todo.formMap(Map<String, dynamic> map) {
     this.id = map[columnId];
-    this.body = map[columnBody];
-    this.show = map[columnShow] == 1;
+    this.title = map[columnTitle];
+    this.done = map[columnDone] == 1;
   }
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
-      columnBody: body,
-      columnShow: show,
+      columnTitle: title,
+      columnDone: done,
     };
 
     if (id != null) {
@@ -32,8 +31,7 @@ class Todo {
 
 @override
   String toString() {
-    // TODO: implement toString
-    return '${this.id}, ${this.body} ${this.show}';
+    return '${this.id}, ${this.title} ${this.done}';
   }
 }
 
@@ -46,8 +44,8 @@ class TodoProvider {
       await db.execute('''
       create table $tableTodo (
         $columnId integer primary key autoincrement,
-        $columnBody text not null,
-        $columnShow integer not null
+        $columnTitle text not null,
+        $columnDone integer not null
       )
       ''');
     });
@@ -57,21 +55,9 @@ class TodoProvider {
     todo.id = await db.insert(tableTodo, todo.toMap());
     return todo;
   }
-
-  // Future<Todo> getTodo(int id) async {
-  //   List<Map<String, dynamic>> maps = await db.query(tableTodo,
-  //       columns: [columnId, columnShow, columnBody, columnShow],
-  //       where: "$columnId = ?",
-  //       whereArgs: [id]);
-  //   if (maps.length > 0) {
-  //     return new Todo.formMap(maps.first);
-  //   }
-  //   return null;
-  // }
-
   Future<Todo> getTodo(int id) async {
     List<Map<String, dynamic>> maps = await db.query(tableTodo,
-        columns: [columnId, columnBody, columnShow],
+        columns: [columnId, columnTitle, columnDone],
         where: '$columnId = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
@@ -91,21 +77,19 @@ class TodoProvider {
   }
 
   Future<List<Todo>> getAll() async {
-    await this.open("todo.db");
+    await this.open("first_table.db");
     var res =
-        await db.query(tableTodo, columns: [columnId, columnBody, columnShow]);
+        await db.query(tableTodo, columns: [columnId, columnTitle, columnDone]);
     List<Todo> list =
         res.isNotEmpty ? res.map((c) => Todo.formMap(c)).toList() : [];
     return list;
   }
 
   Future<List<Map>> getAllString() async {
-    await this.open("todo.db");
+    await this.open("first_table.db");
     var res =
-        await db.query(tableTodo, columns: [columnId, columnBody, columnShow]);
-    // var list = res.isNotEmpty ? res.map((c) => Todo.toString(c)) : [];
+        await db.query(tableTodo, columns: [columnId, columnTitle, columnDone]);
     return res;
   }
-
   Future close() async => db.close();
 }

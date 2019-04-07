@@ -10,7 +10,7 @@ class form_screen extends StatefulWidget {
 
 class form_screen_state extends State<form_screen> {
   final myController = TextEditingController();
-  String _body;
+  String _title;
   TodoProvider todo = TodoProvider();
   final _formkey = GlobalKey<FormState>();
   @override
@@ -47,8 +47,9 @@ class form_screen_state extends State<form_screen> {
                   validator: (value) {
                     if (value.isEmpty) {
                       _showDialog();
+                      return "Please fill Subject";
                     } else {
-                      _body = value;
+                      _title = value;
                     }
                   },
                 ),
@@ -63,11 +64,11 @@ class form_screen_state extends State<form_screen> {
                     child: Text("Submit"),
                     onPressed: () async {
                       _formkey.currentState.validate();
-                      if (_body.length > 0) {
-                        await todo.open("todo.db");
+                      if (_title.length > 0) {
+                        await todo.open("first_table.db");
                         Todo data = Todo();
-                        data.body = _body;
-                        data.show = false;
+                        data.title = _title;
+                        data.done = false;
                         await todo.insert(data);
                         myController.text = "";
                         _Finished();
@@ -94,7 +95,7 @@ class form_screen_state extends State<form_screen> {
             "Alert!",
             textAlign: TextAlign.center,
           ),
-          content: new Text("Subject field is Empty\nPlease Input Subject"),
+          content: new Text("Subject field is Empty\nPlease fill Subject"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
