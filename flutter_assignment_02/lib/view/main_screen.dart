@@ -90,7 +90,7 @@ class main_screen_state extends State<main_screen> {
                                 itemCount: show1.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   Todo item = show1[index];
-                                  return ListTile(
+                                  return Column(children: <Widget>[ListTile(
                                     title: Text(item.title),
                                     trailing: Checkbox(
                                       onChanged: (bool value) async {
@@ -101,7 +101,7 @@ class main_screen_state extends State<main_screen> {
                                       },
                                       value: item.done,
                                     ),
-                                  );
+                                  ),Divider(color: Colors.white,)],);
                                 },
                               )
                             : Center(
@@ -135,7 +135,10 @@ class main_screen_state extends State<main_screen> {
                                 itemCount: show2.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   Todo item = show2[index];
-                                  return ListTile(
+                                  return Column(
+                                    children: <Widget>[
+                                       ListTile(
+                                    
                                     title: Text(item.title),
                                     trailing: Checkbox(
                                       onChanged: (bool value) async {
@@ -146,6 +149,8 @@ class main_screen_state extends State<main_screen> {
                                       },
                                       value: item.done,
                                     ),
+                                  ),Divider(color: Colors.white,)
+                                    ],
                                   );
                                 },
                               )
