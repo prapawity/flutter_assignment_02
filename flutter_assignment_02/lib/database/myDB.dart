@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-final String tableTodo = "first_table";
+final String tableTodo = "todo";
 final String columnId = "_id";
 final String columnTitle = "title";
 final String columnDone = "done";
@@ -77,7 +77,7 @@ class TodoProvider {
   }
 
   Future<List<Todo>> getAll() async {
-    await this.open("first_table.db");
+    await this.open("todo.db");
     var res =
         await db.query(tableTodo, columns: [columnId, columnTitle, columnDone]);
     List<Todo> list =
@@ -86,7 +86,7 @@ class TodoProvider {
   }
 
   Future<List<Map>> getAllString() async {
-    await this.open("first_table.db");
+    await this.open("todo.db");
     var res =
         await db.query(tableTodo, columns: [columnId, columnTitle, columnDone]);
     return res;

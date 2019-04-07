@@ -65,7 +65,7 @@ class form_screen_state extends State<form_screen> {
                     onPressed: () async {
                       _formkey.currentState.validate();
                       if (_title.length > 0) {
-                        await todo.open("first_table.db");
+                        await todo.open("todo.db");
                         Todo data = Todo();
                         data.title = _title;
                         data.done = false;

@@ -194,7 +194,7 @@ class main_screen_state extends State<main_screen> {
 
   void onTabTapped(int index) {
     setState(() {
-      todo.open("first_table.db");
+      todo.open("todo.db");
       _state = index;
     });
   }
