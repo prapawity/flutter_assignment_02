@@ -184,7 +184,7 @@ class main_screen_state extends State<main_screen> {
                 BottomNavigationBarItem(
                   backgroundColor: Colors.white,
                   icon: new Icon(Icons.done_all),
-                  title: Text("Complete"),
+                  title: Text("Completed"),
                 ),
               ],
             ),
